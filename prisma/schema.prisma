@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model File {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  extension  String
+  fileId     String   @unique
+  filename   String   @unique
+  size       BigInt
+  uploadDate DateTime @db.Date
+}
+
+model User {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName           String
+  lastName            String
+  username            String   @unique
+  email               String   @unique
+  password            String
+  googleProviderId    String?
+  microsoftProviderId String?
+  facebookProviderId  String?
+  githubProviderId    String?
+  isVerified          Boolean  @default(false)
+  lastLogin           DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}

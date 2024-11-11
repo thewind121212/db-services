@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package filemanager;
+
+// The gRPC service
+service FileService {
+    rpc CreateFile (CreateFileRequest) returns (CreateFileResponse);
+    rpc GetAllFiles (Empty) returns (GetAllFilesResponse);
+    rpc GetFile (GetFileRequest) returns (GetFileResponse);
+    rpc DeleteFile (GetFileRequest) returns (DeleteFileResponse);
+}
+
+
+message DeleteFileResponse {
+    int32 status_code = 1;
+    string message = 2;
+}
+
+
+message GetFileRequest {
+    string fileId = 1;
+}
+
+message GetFileResponse {
+    FilesResponseType file = 1;
+    int32 status_code = 2;
+}
+
+message CreateFileRequest {
+    string fileId = 1;
+    string filename = 2;
+    string extension = 3;
+    string size = 4;
+}
+
+
+message FilesResponseType {
+    string dateUploaded = 1;
+    string filename = 2;
+    string id = 3;
+    int32 size = 4;
+}
+
+message GetAllFilesResponse {
+    repeated FilesResponseType files = 1;
+    int32 count = 2;
+    int32 status_code = 3;
+}
+
+message CreateFileResponse {
+    int32 status_code = 1; 
+    string message = 2;    
+}
+
+
+service HealthCheck {
+    rpc Ping (Empty) returns (Pong);
+}
+
+message Empty {}
+
+
+
+message Pong {
+  string message = 1;
+  int32 status_code = 2; 
+}
+
+//auth db service 
+
+
+service AuthService {
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+    rpc VerifyUser (VerifyUserRequest) returns (VerifyUserResponse);
+    rpc GetUser (GetUserRequest) returns (GetUserResponse);
+    rpc ResendVerificationEmail (ResendVerificationEmailRequest) returns (ResendVerificationEmailResponse);
+    // rpc DeleteUser (GetUserRequest) returns (DeleteUserResponse);
+    // rpc GetAllUsers (Empty) returns (GetAllUsersResponse);
+}
+
+message CreateUserRequest {
+    string username = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email =  4;
+    string password = 5;
+    string googleProviderId = 6;
+    string microsoftProviderId = 7;
+    string githubProviderId = 8;
+    string facebookProviderId = 9;
+    string loginProvider = 10;
+    string token = 11;
+}
+
+
+
+message ResendVerificationEmailRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message ResendVerificationEmailResponse {
+    int32 status_code = 1;
+    string message = 2;
+}
+
+message CreateUserResponse {
+    int32 status_code = 1;
+    string message = 2;
+}
+
+message VerifyUserRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message VerifyUserResponse {
+    int32 status_code = 1;
+    string message = 2;
+}
+
+message GetUserRequest {
+    string providerMethod = 1;
+    string providerPayload = 2;
+}
+
+
+message UserRetrive {
+        string id = 1;
+        string firstName = 2;
+        string lastName = 3;
+        string username = 4;
+        string email = 5;
+        string googleProviderId = 6;
+        string microsoftProviderId = 7;
+        string githubProviderId = 8;
+        string facebookProviderId = 9;
+        bool isVerified = 10;
+        string lastLogin = 11;
+        string createdAt = 12;
+        string updatedAt = 13;
+}
+
+message GetUserResponse {
+    string status_code = 1;
+    string message = 2;
+    UserRetrive user = 3;
+}
